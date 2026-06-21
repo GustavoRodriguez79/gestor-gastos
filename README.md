@@ -5,7 +5,17 @@ API REST para registrar y gestionar gastos personales, con frontend en HTML/CSS/
 ![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.137-009688?logo=fastapi)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-336791?logo=postgresql)
-![Estado](https://img.shields.io/badge/Estado-En%20desarrollo-yellow)
+![Estado](https://img.shields.io/badge/Estado-Completo-brightgreen)
+
+---
+
+## 📸 Vista previa
+
+### Tema oscuro
+![Tema oscuro](docs/images/tema-oscuro.png)
+
+### Tema claro
+![Tema claro](docs/images/tema-claro.png)
 
 ---
 
@@ -30,9 +40,10 @@ gestor-gastos/
 │       └── gastos.py    # Endpoints CRUD
 ├── frontend/
 │   ├── index.html       # Interfaz de usuario
-│   ├── style.css        # Estilos
+│   ├── style.css        # Estilos con tema oscuro/claro
 │   └── app.js           # Lógica y fetch a la API
-|
+├── docs/
+│   └── images/          # Capturas de pantalla
 ├── .gitignore
 └── README.md
 ```
@@ -141,10 +152,26 @@ cd backend
 uvicorn main:app --reload
 ```
 
+### 6. Abrir el frontend
+
+Abrís `frontend/index.html` con Live Server en VS Code.
+
+---
+
+## ✨ Funcionalidades
+
+- Registrar gastos con descripción, monto, categoría y fecha
+- Listar todos los gastos ordenados por fecha
+- Filtrar gastos por mes y año
+- Eliminar gastos con confirmación
+- Resumen del mes: total gastado y categoría con mayor gasto
+- Tema oscuro y claro con toggle — preferencia guardada en localStorage
+- Diseño responsive para móvil y escritorio
+
 ---
 
 ## 👤 Autor
 
-**Gustavo Rodriguez**  
-Tecnicatura Universitaria en Programación — UTN San Rafael  
-[GitHub](https://github.com/GustavoRodriguez79)
+**Gustavo Ariel Rodriguez**
+Tecnicatura Universitaria en Programación — UTN San Rafael
+[GitHub](https://github.com/GustavoRodriguez79) · [LinkedIn](https://www.linkedin.com/in/gustavo-ariel-rodr%C3%ADguez-fornes-36a899370/) · [garodrifornes79@gmail.com](mailto:garodrifornes79@gmail.com)
