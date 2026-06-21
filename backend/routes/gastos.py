@@ -63,6 +63,60 @@ def obtener_gastos(mes: Optional[int] = None, anio: Optional[int] = None):
         cursor.close()
         conn.close()
 
+@router.get("/resumen")
+def obtener_resumen(mes: Optional[int] = None, anio: Optional[int] = None):
+    """
+    Retorna un resumen del mes actual o del mes/año indicado.
+    Incluye: total gastado y la categoría con mayor gasto.
+    Ejemplo: GET /gastos/resumen?mes=6&anio=2026
+    """
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    try:
+        # Si no se pasan parámetros usa el mes y año actuales
+        hoy = date.today()
+        mes = mes or hoy.month
+        anio = anio or hoy.year
+
+        # Total gastado en el período
+        cursor.execute("""
+            SELECT COALESCE(SUM(monto), 0)
+            FROM gastos
+            WHERE EXTRACT(MONTH FROM fecha) = %s
+            AND EXTRACT(YEAR FROM fecha) = %s
+        """, (mes, anio))
+        total = float(cursor.fetchone()[0])
+
+        # Categoría con mayor gasto en el período
+        cursor.execute("""
+            SELECT categoria, SUM(monto) as total_categoria
+            FROM gastos
+            WHERE EXTRACT(MONTH FROM fecha) = %s
+            AND EXTRACT(YEAR FROM fecha) = %s
+            GROUP BY categoria
+            ORDER BY total_categoria DESC
+            LIMIT 1
+        """, (mes, anio))
+
+        fila = cursor.fetchone()
+        categoria_top = fila[0] if fila else "Sin gastos"
+        total_categoria_top = float(fila[1]) if fila else 0
+
+        return {
+            "mes": mes,
+            "anio": anio,
+            "total_gastado": total,
+            "categoria_top": categoria_top,
+            "total_categoria_top": total_categoria_top
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cursor.close()
+        conn.close()
+
 
 @router.post("/", status_code=201)
 def crear_gasto(gasto: GastoCreate):
@@ -174,60 +228,6 @@ def eliminar_gasto(gasto_id: int):
         cursor.close()
         conn.close()
 
-
-@router.get("/resumen")
-def obtener_resumen(mes: Optional[int] = None, anio: Optional[int] = None):
-    """
-    Retorna un resumen del mes actual o del mes/año indicado.
-    Incluye: total gastado y la categoría con mayor gasto.
-    Ejemplo: GET /gastos/resumen?mes=6&anio=2026
-    """
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    try:
-        # Si no se pasan parámetros usa el mes y año actuales
-        hoy = date.today()
-        mes = mes or hoy.month
-        anio = anio or hoy.year
-
-        # Total gastado en el período
-        cursor.execute("""
-            SELECT COALESCE(SUM(monto), 0)
-            FROM gastos
-            WHERE EXTRACT(MONTH FROM fecha) = %s
-            AND EXTRACT(YEAR FROM fecha) = %s
-        """, (mes, anio))
-        total = float(cursor.fetchone()[0])
-
-        # Categoría con mayor gasto en el período
-        cursor.execute("""
-            SELECT categoria, SUM(monto) as total_categoria
-            FROM gastos
-            WHERE EXTRACT(MONTH FROM fecha) = %s
-            AND EXTRACT(YEAR FROM fecha) = %s
-            GROUP BY categoria
-            ORDER BY total_categoria DESC
-            LIMIT 1
-        """, (mes, anio))
-
-        fila = cursor.fetchone()
-        categoria_top = fila[0] if fila else "Sin gastos"
-        total_categoria_top = float(fila[1]) if fila else 0
-
-        return {
-            "mes": mes,
-            "anio": anio,
-            "total_gastado": total,
-            "categoria_top": categoria_top,
-            "total_categoria_top": total_categoria_top
-        }
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    finally:
-        cursor.close()
-        conn.close()
 
 
         

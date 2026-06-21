@@ -1,0 +1,446 @@
+/* ============================================================
+   style.css — Gestor de Gastos Personales
+   Tema oscuro/claro con toggle, cards con efecto hover
+   ============================================================ */
+
+/* ─── Variables — Tema oscuro (default) ─── */
+:root,
+[data-theme="dark"] {
+    --bg: #0F172A;
+    --card: #1E293B;
+    --card-inner: #0F172A;
+    --primary: #00E676;
+    --text: #F8FAFC;
+    --text-secondary: #CBD5E1;
+    --border: #334155;
+    --danger: #f87171;
+    --danger-hover: #ef4444;
+    --success: #00E676;
+    --shadow-card: 0 0 25px rgba(0, 230, 118, 0.30);
+    --shadow-inner: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --btn-shadow: 0 0 16px rgba(0, 230, 118, 0.35);
+    --radio: 12px;
+    --transition: 0.3s ease;
+}
+
+/* ─── Variables — Tema claro ─── */
+[data-theme="light"] {
+    --bg: #DDE3EA;
+    --card: #FFFFFF;
+    --card-inner: #F1F5F9;
+    --primary: #00C853;
+    --text: #0F172A;
+    --text-secondary: #475569;
+    --border: #CBD5E0;
+    --danger: #e53e3e;
+    --danger-hover: #c53030;
+    --success: #00C853;
+    --shadow-card: 0 6px 24px rgba(15, 23, 42, 0.18);
+    --shadow-inner: 0 2px 8px rgba(15, 23, 42, 0.08);
+    --btn-shadow: 0 6px 16px rgba(0, 200, 83, 0.35);
+    --radio: 12px;
+    --transition: 0.3s ease;
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background-color var(--transition), color var(--transition);
+}
+
+/* ─── Header ─── */
+header {
+    background-color: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-inner);
+}
+
+header h1 {
+    font-size: 1.6rem;
+    color: var(--primary);
+    letter-spacing: 1px;
+}
+
+/* ─── Toggle tema oscuro/claro ─── */
+.theme-toggle {
+    background: transparent;
+    border: 2px solid var(--border);
+    border-radius: 50px;
+    padding: 8px 16px;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: none;
+}
+
+.theme-toggle:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+    background: transparent;
+    box-shadow: none;
+    filter: none;
+}
+
+/* ─── Layout principal ─── */
+main {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+/* ─── Cards (todas las secciones) ─── */
+.card-section {
+    background: var(--card);
+    border-radius: var(--radio);
+    padding: 28px;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+    box-shadow: var(--shadow-card);
+}
+
+/* Línea decorativa superior */
+.card-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), #69f0ae);
+}
+
+/* Hover tema oscuro — glow verde */
+[data-theme="dark"] .card-section:hover {
+    transform: translateY(-6px);
+    border-color: var(--primary);
+    box-shadow: 0 0 30px rgba(0, 230, 118, 0.35);
+}
+
+/* Hover tema claro — sombra pronunciada */
+[data-theme="light"] .card-section:hover {
+    transform: translateY(-6px);
+    border-color: var(--primary);
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.22);
+}
+
+.card-section h2 {
+    font-size: 1.1rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+/* ─── Cards de resumen ─── */
+.resumen-cards {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.resumen-item {
+    flex: 1;
+    min-width: 180px;
+    background: var(--card-inner);
+    border: 2px solid var(--border);
+    border-radius: var(--radio);
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: var(--transition);
+    box-shadow: var(--shadow-inner);
+}
+
+[data-theme="dark"] .resumen-item:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 0 16px rgba(0, 230, 118, 0.25);
+}
+
+[data-theme="light"] .resumen-item:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.14);
+}
+
+.resumen-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.resumen-valor {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--success);
+}
+
+/* ─── Formulario ─── */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.form-grid button {
+    grid-column: 1 / -1;
+}
+
+/* ─── Filtros ─── */
+.filtros-grid {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filtros-grid select {
+    flex: 1;
+    min-width: 140px;
+}
+
+/* ─── Inputs y selects ─── */
+input, select {
+    background-color: var(--card-inner);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    width: 100%;
+    font-family: inherit;
+    transition: var(--transition);
+    box-shadow: var(--shadow-inner);
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.10);
+}
+
+[data-theme="light"] input:focus,
+[data-theme="light"] select:focus {
+    box-shadow: 0 0 0 3px rgba(0, 200, 83, 0.12);
+}
+
+input::placeholder {
+    color: var(--text-secondary);
+}
+
+/* ─── Botones ─── */
+button {
+    background-color: var(--primary);
+    color: #0F172A;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* Hover botón — usa variable por tema */
+button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+    box-shadow: var(--btn-shadow);
+}
+
+/* Botón eliminar */
+button.btn-eliminar {
+    background-color: transparent;
+    color: var(--danger);
+    border: 2px solid var(--danger);
+    padding: 5px 12px;
+    font-size: 0.82rem;
+    box-shadow: none;
+}
+
+button.btn-eliminar:hover {
+    background-color: var(--danger);
+    color: white;
+    box-shadow: 0 4px 12px rgba(248, 113, 113, 0.3);
+    filter: none;
+}
+
+/* Botón secundario Ver todos */
+#btn-limpiar {
+    background-color: transparent;
+    color: var(--text-secondary);
+    border: 2px solid var(--border);
+    box-shadow: none;
+}
+
+#btn-limpiar:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background-color: transparent;
+    box-shadow: none;
+    filter: none;
+}
+
+/* ─── Tabla de gastos ─── */
+.tabla-container {
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: var(--shadow-inner);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.93rem;
+}
+
+thead {
+    background-color: var(--card-inner);
+}
+
+th {
+    text-align: left;
+    padding: 12px 16px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 1px solid var(--border);
+}
+
+td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    color: var(--text);
+}
+
+tbody tr {
+    transition: background-color var(--transition);
+}
+
+[data-theme="dark"] tbody tr:hover {
+    background-color: rgba(0, 230, 118, 0.04);
+}
+
+[data-theme="light"] tbody tr:hover {
+    background-color: rgba(0, 200, 83, 0.05);
+}
+
+/* ─── Footer ─── */
+footer {
+    background-color: var(--card);
+    border-top: 1px solid var(--border);
+    padding: 30px 40px;
+    margin-top: 40px;
+    text-align: center;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+}
+
+footer p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+}
+
+footer p:last-of-type {
+    font-size: 0.78rem;
+    margin-bottom: 16px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.footer-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card-inner);
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-inner);
+}
+
+[data-theme="dark"] .footer-item:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 0 16px rgba(0, 230, 118, 0.25);
+    color: var(--primary);
+}
+
+[data-theme="light"] .footer-item:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.14);
+    color: var(--primary);
+}
+
+.footer-item i {
+    font-size: 1.1rem;
+    transition: transform var(--transition);
+}
+
+.footer-item:hover i {
+    transform: scale(1.1);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+    header { padding: 16px 20px; }
+    header h1 { font-size: 1.2rem; }
+    main { margin: 20px auto; gap: 20px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .resumen-cards { flex-direction: column; }
+    .filtros-grid { flex-direction: column; }
+    .filtros-grid select, .filtros-grid button { width: 100%; }
+    .footer-links { flex-direction: column; align-items: center; }
+}
+
+@media (max-width: 400px) {
+    .card-section { padding: 18px; }
+    header h1 { font-size: 1rem; }
+}
