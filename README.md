@@ -83,25 +83,26 @@ Documentación interactiva disponible en `http://127.0.0.1:8000/docs`
 
 ```mermaid
 flowchart TD
-    subgraph FE["🖥️ Frontend — HTML · CSS · JavaScript"]
-        A["index.html\nEstructura visual"]
-        B["style.css\nEstilos y diseño"]
-        C["app.js\nFetch a la API"]
+    subgraph FE["Frontend - HTML · CSS · JavaScript"]
+        A["index.html - Estructura visual"]
+        B["style.css - Estilos y diseño"]
+        C["app.js - Fetch a la API"]
     end
 
-    subgraph API["⚙️ Backend — FastAPI · Python · uvicorn"]
-        D["main.py\nApp · CORS · routers"]
-        E["models.py\nPydantic schemas"]
-        F["database.py\nConexion psycopg2"]
-        G["routes/gastos.py\nGET · POST · PUT · DELETE"]
+    subgraph API["Backend - FastAPI · Python · uvicorn"]
+        D["main.py - App · CORS · routers"]
+        E["models.py - Pydantic schemas"]
+        F["database.py - Conexion psycopg2"]
+        G["routes/gastos.py - GET · POST · PUT · DELETE"]
     end
 
-    subgraph DB["🗄️ Base de datos — PostgreSQL"]
-        H["tabla gastos\nid · monto · categoria · fecha"]
-        I[".env\nCredenciales"]
+    subgraph DB["Base de datos - PostgreSQL"]
+        H["tabla gastos - id · monto · categoria · fecha"]
+        I[".env - Credenciales"]
     end
 
-    A & B & C |HTTP / JSON| G
+    C -->|HTTP JSON| G
+    G -->|JSON response| C
     D --> G
     E --> G
     F --> G
