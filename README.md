@@ -79,37 +79,43 @@ CREATE TABLE gastos (
 Documentación interactiva disponible en `http://127.0.0.1:8000/docs`
 
 ---
-
 ## 🏗️ Arquitectura
 
 ```mermaid
 flowchart TD
-    subgraph FE["Frontend — HTML · CSS · JavaScript"]
-        A["index.html - Estructura visual"]
-        B["style.css - Estilos y diseño"]
-        C["app.js - Fetch a la API"]
+    subgraph FE["🖥️ Frontend — HTML · CSS · JavaScript"]
+        A["index.html\nEstructura visual"]
+        B["style.css\nEstilos y diseño"]
+        C["app.js\nFetch a la API"]
     end
 
-    subgraph API["Backend — FastAPI · Python · uvicorn"]
-        D["main.py - App · CORS · routers"]
-        E["models.py - Pydantic schemas"]
-        F["database.py - Conexion psycopg2"]
-        G["routes/gastos.py - GET · POST · PUT · DELETE"]
+    subgraph API["⚙️ Backend — FastAPI · Python · uvicorn"]
+        D["main.py\nApp · CORS · routers"]
+        E["models.py\nPydantic schemas"]
+        F["database.py\nConexion psycopg2"]
+        G["routes/gastos.py\nGET · POST · PUT · DELETE"]
     end
 
-    subgraph DB["Base de datos — PostgreSQL"]
-        H["tabla gastos - id · monto · categoria · fecha"]
-        I[".env - Credenciales"]
+    subgraph DB["🗄️ Base de datos — PostgreSQL"]
+        H["tabla gastos\nid · monto · categoria · fecha"]
+        I[".env\nCredenciales"]
     end
 
-    A & B & C <-->|HTTP / JSON| G
+    A & B & C |HTTP / JSON| G
     D --> G
     E --> G
     F --> G
     G -->|SQL Queries| H
     I -.->|variables de entorno| F
-```
 
+    classDef frontend fill:#1a3a5c,stroke:#38bdf8,color:#e2e8f0
+    classDef backend fill:#1a3a2a,stroke:#00E676,color:#e2e8f0
+    classDef database fill:#3a1a1a,stroke:#f87171,color:#e2e8f0
+
+    class A,B,C frontend
+    class D,E,F,G backend
+    class H,I database
+```
 ---
 
 ## ⚙️ Instalación y uso
